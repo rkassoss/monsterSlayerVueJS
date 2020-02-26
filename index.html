@@ -28,27 +28,28 @@
     </section>
     <section class="row controls" v-if="!gameInProgress">
         <div class="small-12 columns">
-            <button id="start-game" @click="gameInProgress = !gameInProgress">START NEW GAME</button>
+            <button id="start-game" @click="startGame">START NEW GAME</button>
         </div>
     </section>
-    <section class="row controls" v-if="gameInProgress">
+    <section class="row controls" v-else>
         <div class="small-12 columns">
-            <button id="attack" @click="turn()">ATTACK</button>
-            <button id="special-attack" @click="turn(20)">SPECIAL ATTACK</button>
-            <button id="heal" @click="turn(10,false)">HEAL</button>
-            <button id="give-up" @click="restart">GIVE UP</button>
+            <button id="attack" @click="attack">ATTACK</button>
+            <button id="special-attack" @click="specialAttack">SPECIAL ATTACK</button>
+            <button id="heal" @click="heal">HEAL</button>
+            <button id="give-up" @click="giveUp">GIVE UP</button>
         </div>
     </section>
-    <section class="row log" v-if="gameInProgress && turnLog.length">
+    <section class="row log" v-if="gameInProgress && turns.length">
         <div class="small-12 columns">
             <ul>
-                <li v-for="(turn, turnIndex) in turnLog">
-                    <div :id="turnIndex + '_' + i + '_' + key" v-for="(val, key, i) in turn" :class="key == 'player' ? 'player-turn' : 'monster-turn'">
-                        {{ val }}
+                <li v-for="(turn, turnIndex) in turns">
+                    <div :id="'turn-'+turnIndex" :class="turn.isPlayer ? 'player-turn' : 'monster-turn'">
+                        {{ turn.text }}
                     </div>
                 </li>
             </ul>
         </div>
+        <button @click="turns = [];"></button>
     </section>
 </div>
 </body>
